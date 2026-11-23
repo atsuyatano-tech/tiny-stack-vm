@@ -1,4 +1,4 @@
-//tiny stack VM, golf build: byte-exact interpreter for make.fun's tiny stack ISA.
+//tiny stack VM (golf): byte-exact interpreter for the tiny stack ISA.
 import{readdirSync as R,readFileSync as F,writeFileSync as W,mkdirSync as M,existsSync as E}from"node:fs";
 import{join as J}from"node:path";
 const I=process.env.MAKEFUN_INPUT_DIR||"/input",O=process.env.MAKEFUN_OUTPUT_DIR||"/output",T="01146abfxxxxxxxx999999959995999x999xxxxxxxxxxxxx04400xxxxxxxxxxx58xxxxxxxxxxxxxx4414",U=f=>new Uint8Array(F(f));
@@ -9,8 +9,8 @@ switch(o){case 0:return D(0);case 1:S.push((P[x-1]<<24)>>24);break;case 2:S.push
 case 48:case 49:case 50:{const r=((P[x-2]|P[x-1]<<8)<<16)>>16;let t=o==48;if(!t){const v=S.pop();t=o==49?v==0:v!=0}if(t)p=x+r;break}
 case 51:if(C.length>=64)return D(7);C.push(x);p=P[x-2]|P[x-1]<<8;break;
 case 52:if(!C.length)return D(8);p=C.pop();break;
-case 64:{const v=S[S.length-1];if(v<0||v>255)return D(6);S[S.length-1]=Y[v];break}
-case 65:{const v=S.pop();if(v<0||v>255)return D(6);Y[v]=S.pop();break}
+case 64:{const v=S[S.length-1];if(v>>8)return D(6);S[S.length-1]=Y[v];break}
+case 65:{const v=S.pop();if(v>>8)return D(6);Y[v]=S.pop();break}
 case 80:{const v=S[S.length-1]+"";if(O.length+v.length>65536)return D(11);S.pop();O.push(...new TextEncoder().encode(v));break}
 case 81:if(O.length>=65536)return D(11);O.push(S.pop()&255);break;
 case 82:S.push(a<Q.length?Q[a++]:-1);break;
